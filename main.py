@@ -21,3 +21,5 @@ add_pagination(app)
 @app.get("/")
 async def get_root():
     return {"message": "Text to Speech APIs version 0.1.0"}
+
+# web: gunicorn -w 4 -k uvicorn.workers.UvicornWorker main:app
