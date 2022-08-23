@@ -23,7 +23,6 @@ class TextToSpeechManager(implements(ITextToSpeechManager)):
         if database_testing_duplication:
             database_testing_duplication["id"] = str(database_testing_duplication["_id"])
             data_recieved = TextToSpeechResponsePayload(**database_testing_duplication)
-            print(data_recieved.enter_text)
             
             engine = pyttsx3.init()
             engine.setProperty('rate', 125)
@@ -66,7 +65,6 @@ class TextToSpeechManager(implements(ITextToSpeechManager)):
         if database_testing_duplication:
             database_testing_duplication["id"] = str(database_testing_duplication["_id"])
             data_recieved = TextToSpeechResponsePayload(**database_testing_duplication)
-            print(data_recieved.enter_text)
             
             engine = pyttsx3.init()
             engine.setProperty('rate', 125)

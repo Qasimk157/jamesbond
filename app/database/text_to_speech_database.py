@@ -1,5 +1,3 @@
-import asyncio
-
 from app.config.config import MONGODB_CON_STR
 from app.database.text_to_speech_database_interface import \
     ITextToSpeechDatabase
@@ -8,14 +6,15 @@ from app.models.text_to_speech.text_to_speech_request_payload import \
     TextToSpeechRequestPayload
 from fastapi.encoders import jsonable_encoder
 from interface import implements
-from motor.motor_asyncio import AsyncIOMotorClient
+# from motor.motor_asyncio import AsyncIOMotorClient
 
 
 class TextToSpeechDatabase(implements(ITextToSpeechDatabase)):
     # print(MONGODB_CON_STR)
-    cluster = MongoClient('mongodb+srv://qasim:qasim@cluster0.cyxbnuq.mongodb.net/?retryWrites=true&w=majority')
+    cluster = MongoClient(MONGODB_CON_STR)
     db = cluster["text_to_speech"]
     text_to_speech_collection = db["text"]
+
     # client = AsyncIOMotorClient(MONGODB_CON_STR)
     # client.get_io_loop = asyncio.get_running_loop
     # text_to_speech_collection = client[DATABASE_NAME]["text_to_speech"]
@@ -29,5 +28,4 @@ class TextToSpeechDatabase(implements(ITextToSpeechDatabase)):
     
     async def get_queury_if_exist_in_database(self, enterText: str):
         data =  self.text_to_speech_collection.find_one({"enterText": enterText})
-        print(data)
         return data
