@@ -1,6 +1,6 @@
 import asyncio
 
-# from app.config.config import MONGODB_CON_STR
+from app.config.config import MONGODB_CON_STR
 from app.database.text_to_speech_database_interface import \
     ITextToSpeechDatabase
 from pymongo import MongoClient
@@ -13,7 +13,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 
 class TextToSpeechDatabase(implements(ITextToSpeechDatabase)):
     # print(MONGODB_CON_STR)
-    cluster = MongoClient("mongodb+srv://qasim:qasim@cluster0.cyxbnuq.mongodb.net/?retryWrites=true&w=majority")
+    cluster = MongoClient(MONGODB_CON_STR)
     db = cluster["text_to_speech"]
     text_to_speech_collection = db["text"]
     # client = AsyncIOMotorClient(MONGODB_CON_STR)
