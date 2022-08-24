@@ -13,6 +13,7 @@ from fastapi import status
 from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi_utils.cbv import cbv
+import pyttsx3
 from fastapi_utils.inferring_router import InferringRouter
 from interface import implements
 
@@ -36,7 +37,20 @@ class TextToSpeechControllerController(implements(ITextToSpeechController)):
                             status.HTTP_500_INTERNAL_SERVER_ERROR: {"model": ResponseMessage}})
     async def create_by_tts(self, request_payload: TextToSpeechRequestPayload):
         try:
-            response = await self.manager.create_by_tts(request_payload)
+            
+            engine = pyttsx3.init()
+            engine.setProperty('rate', 125)
+            engine.setProperty('volume',1.0)  
+            voices = engine.getProperty('voices')
+            engine.setProperty('voice', voices[0].id)
+            engine.say(request_payload.enter_text)
+            engine.save_to_file(request_payload.enter_text, 'pyttsx.mp3')
+            engine.runAndWait()
+            engine.stop()
+            
+            
+            response = request_payload.dict()
+            # response = await self.manager.create_by_tts(request_payload)
             if not isinstance(response, ResponseMessage):
                 return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(response))
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=jsonable_encoder(response))
@@ -60,7 +74,21 @@ class TextToSpeechControllerController(implements(ITextToSpeechController)):
                             status.HTTP_500_INTERNAL_SERVER_ERROR: {"model": ResponseMessage}})
     async def create_by_gTTS(self, request_payload: TextToSpeechRequestPayload):
         try:
-            response = await self.manager.create_by_gTTS(request_payload)
+            
+            engine = pyttsx3.init()
+            engine.setProperty('rate', 125)
+            engine.setProperty('volume',1.0)  
+            voices = engine.getProperty('voices')
+            engine.setProperty('voice', voices[0].id)
+            engine.say(request_payload.enter_text)
+            engine.save_to_file(request_payload.enter_text, 'pyttsx.mp3')
+            engine.runAndWait()
+            engine.stop()
+            
+            
+            response = request_payload.dict()
+            
+            # response = await self.manager.create_by_gTTS(request_payload)
             if not isinstance(response, ResponseMessage):
                 return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(response))
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=jsonable_encoder(response))
