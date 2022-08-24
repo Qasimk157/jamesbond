@@ -24,7 +24,7 @@ router = InferringRouter()
 class TextToSpeechControllerController(implements(ITextToSpeechController)):
     def __init__(self):
         self.manager = TextToSpeechManager()
-        self.logger = Logger()
+        # self.logger = Logger()
 
     @router.post("/by-pyttsx3/",
                  summary="Create a text to speech response",
@@ -55,7 +55,8 @@ class TextToSpeechControllerController(implements(ITextToSpeechController)):
                 return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(response))
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=jsonable_encoder(response))
         except Exception as e:
-            self.logger.error(e)
+            print(e)
+            # self.logger.error(e)
             message = ResponseMessage(
                 success=False, message=ErrorMessages.server_error.value)
             response = JSONResponse(
@@ -93,7 +94,8 @@ class TextToSpeechControllerController(implements(ITextToSpeechController)):
                 return JSONResponse(status_code=status.HTTP_201_CREATED, content=jsonable_encoder(response))
             return JSONResponse(status_code=status.HTTP_400_BAD_REQUEST, content=jsonable_encoder(response))
         except Exception as e:
-            self.logger.error(e)
+            print(e)
+            # self.logger.error(e)
             message = ResponseMessage(
                 success=False, message=ErrorMessages.server_error.value)
             response = JSONResponse(
