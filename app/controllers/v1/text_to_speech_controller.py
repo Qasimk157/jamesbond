@@ -14,7 +14,6 @@ from fastapi.encoders import jsonable_encoder
 from fastapi.responses import JSONResponse
 from fastapi_utils.cbv import cbv
 import pyttsx3
-import espeak
 from fastapi_utils.inferring_router import InferringRouter
 from interface import implements
 
@@ -76,22 +75,16 @@ class TextToSpeechControllerController(implements(ITextToSpeechController)):
                             status.HTTP_500_INTERNAL_SERVER_ERROR: {"model": ResponseMessage}})
     async def create_by_gTTS(self, request_payload: TextToSpeechRequestPayload):
         try:
-            
-            espeak.init()
-            speaker = espeak.Espeak()
-            speaker.say("Hello world")
-            speaker.rate = 300
-            speaker.say("Faster hello world")
-            
-            # engine = pyttsx3.init()
-            # engine.setProperty('rate', 125)
-            # engine.setProperty('volume',1.0)  
-            # voices = engine.getProperty('voices')
-            # engine.setProperty('voice', voices[0].id)
-            # engine.say(request_payload.enter_text)
-            # engine.save_to_file(request_payload.enter_text, 'pyttsx.mp3')
-            # engine.runAndWait()
-            # engine.stop()
+   
+            engine = pyttsx3.init()
+            engine.setProperty('rate', 125)
+            engine.setProperty('volume',1.0)  
+            voices = engine.getProperty('voices')
+            engine.setProperty('voice', voices[0].id)
+            engine.say(request_payload.enter_text)
+            engine.save_to_file(request_payload.enter_text, 'pyttsx.mp3')
+            engine.runAndWait()
+            engine.stop()
             
             
             response = request_payload.dict()
